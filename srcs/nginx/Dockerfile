@@ -5,9 +5,7 @@ FROM	alpineplus
 LABEL	maintainer="mmizuno <mmizuno@student.42tokyo.jp>"
 
 # Install Nginx
-# Install OpenSSL
-RUN		apk --no-cache add nginx; \
-		apk --no-cache add openssl;
+RUN		apk --no-cache add nginx;
 
 # Create Working Directory
 RUN		mkdir -p /run/nginx
