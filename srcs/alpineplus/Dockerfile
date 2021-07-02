@@ -7,9 +7,11 @@ LABEL	maintainer="mmizuno <mmizuno@student.42tokyo.jp>"
 # Update Alpine Linux
 RUN		apk --no-cache update;
 
+# Install openssl
 # Install openrc
 # Install wget curl
-RUN		apk --no-cache add openrc; \
+RUN		apk --no-cache add openssl; \
+		apk --no-cache add openrc; \
 		apk --no-cache add wget curl;
 
 # Create Working Directory
