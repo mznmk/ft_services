@@ -5,18 +5,22 @@ FROM	alpine:3.13
 LABEL	maintainer="mmizuno <mmizuno@student.42tokyo.jp>"
 
 # Update Alpine Linux
-RUN		apk --no-cache update;
-
 # Install openssl
 # Install openrc
 # Install wget curl
-RUN		apk --no-cache add openssl; \
+# Install telegraf
+RUN		apk --no-cache update; \
 		apk --no-cache add openrc; \
+		apk --no-cache add openssl; \
+		apk --no-cache add telegraf; \
 		apk --no-cache add wget curl;
 
 # Create Working Directory
 RUN		mkdir -p /run/openrc/; \
-		touch /run/openrc/softlevel
+		touch /run/openrc/softlevel;
+
+# Copy Setting Data
+COPY	srcs/telegraf.conf /etc/telegraf.conf
 
 # Create SSL/TLS Key
 RUN		mkdir -p /etc/ssl/selfcerts/; \
