@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-deployment
+  labels:
+    app: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      volumes:
+      - name: mysql-storage
+        persistentVolumeClaim:
+          claimName: mysql-pvc
+      containers:
+      - name: mysql
+        image: ft_mysql
+        imagePullPolicy: Never
+        livenessProbe:
+          exec:
+            command:
+            - "sh"
+            - "/tmp/livenessprobe.sh"
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+          periodSeconds: 30
+        ports:
+        - name: mysql
+          containerPort: 3306
+        volumeMounts:
+        - name: mysql-storage
+          mountPath: /var/lib/mysql
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: mysql_root_password
+        - name: MYSQL_DATABASE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: mysql_database_name
+        - name: MYSQL_USER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: mysql_user_name
+        - name: MYSQL_USER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: mysql_user_password
