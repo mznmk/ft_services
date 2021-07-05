@@ -11,16 +11,18 @@ RUN		apk --no-cache add nginx;
 RUN		mkdir -p /run/nginx
 
 # Copy Setting Data
-COPY	./srcs/nginx.conf /etc/nginx/
 COPY	./srcs/default.conf /etc/nginx/conf.d/
 
 # Copy Contents Data
 COPY	./srcs/index.html /var/www/
 RUN		chown -R nginx:nginx /var/www
 
+# Copy LivenessProbe Script
+COPY	./srcs/livenessprobe.sh /tmp/
+
 # Copy Init Script
-COPY	./srcs/init_nginx.sh /
-RUN		chmod +x /init_nginx.sh
+COPY	./srcs/init_nginx.sh /tmp/
+RUN		chmod +x /tmp/init_nginx.sh
 
 # Run Init Command
-ENTRYPOINT [ "/init_nginx.sh" ]
+ENTRYPOINT [ "/tmp/init_nginx.sh" ]

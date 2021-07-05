@@ -18,8 +18,16 @@ spec:
       - name: nginx
         image: ft_nginx
         imagePullPolicy: Never
+        livenessProbe:
+          exec:
+            command:
+            - "sh"
+            - "/tmp/livenessprobe.sh"
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+          periodSeconds: 30
         ports:
-        - containerPort: 80
-          name: http
-        - containerPort: 443
-          name: https
+        - name: http
+          containerPort: 80
+        - name: https
+          containerPort: 443
