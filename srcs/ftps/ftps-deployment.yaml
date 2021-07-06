@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ftps-deployment
+  labels:
+    app: ftps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ftps
+  template:
+    metadata:
+      labels:
+        app: ftps
+    spec:
+      volumes:
+      - name: ftps-storage
+        persistentVolumeClaim:
+          claimName: ftps-pvc
+      containers:
+      - name: ftps
+        image: ft_ftps
+        imagePullPolicy: Never
+        livenessProbe:
+          exec:
+            command:
+            - "sh"
+            - "/tmp/livenessprobe.sh"
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+          periodSeconds: 30
+        ports:
+        - name: ftps-data
+          containerPort: 20
+        - name: ftps-control
+          containerPort: 21
+        - name: ftps-passive
+          containerPort: 60000
+        volumeMounts:
+        - name: ftps-storage
+          mountPath: /var/www/ftps
