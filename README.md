@@ -9,7 +9,7 @@ This is a System Administration and Networking project.
 
 ### 42 old curriculum
 
-ft_services didn't existed  
+ft_services didn't exist  
 
 
 ### 42 new curriculum
