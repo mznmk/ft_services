@@ -39,4 +39,12 @@ wget -qO- https://deb.nodesource.com/setup_13.x | sudo -E bash - &&
 sudo apt install -y nodejs && 
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh%
 
+# =========================== Install for minikube =========================== #
+
+sudo apt install conntrack
+
+# ============================= Install for ftps ============================= #
+
+sudo apt install lftp
+
 # ============================================================================ #
