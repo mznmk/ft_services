@@ -1,20 +1,10 @@
 #!/bin/sh
 
-kubectl exec deploy/ftps -- pkill telegraf
-kubectl exec deploy/influxdb -- pkill telegraf
-kubectl exec deploy/grafana -- pkill telegraf
-kubectl exec deploy/mysql -- pkill telegraf
-kubectl exec deploy/nginx -- pkill telegraf
-kubectl exec deploy/phpmyadmin -- pkill telegraf
-kubectl exec deploy/wordpress -- pkill telegraf
-
-# kubectl exec deploy/ftps -- pkill vsftpd
-# kubectl exec deploy/influxdb -- pkill influxd
-# kubectl exec deploy/grafana -- pkill grafana-server
-# kubectl exec deploy/mysql -- pkill mysql
-# kubectl exec deploy/nginx -- pkill nginx
-# kubectl exec deploy/phpmyadmin -- pkill nginx
-# kubectl exec deploy/wordpress -- pkill nginx
-
-# kubectl exec deploy/phpmyadmin -- pkill php-fpm7
-# kubectl exec deploy/wordpress -- pkill php-fpm7
+kubectl exec deployment.apps/ftps -- pkill vsftpd
+kubectl exec deployment.apps/influxdb -- pkill influxd
+kubectl exec deployment.apps/grafana -- pkill grafana-server
+# kubectl exec deployment.apps/mysql -- pkill mysqld
+kubectl exec deployment.apps/mysql -- pkill mariadbd
+kubectl exec deployment.apps/nginx -- pkill nginx
+kubectl exec deployment.apps/phpmyadmin -- pkill nginx
+kubectl exec deployment.apps/wordpress -- pkill nginx
