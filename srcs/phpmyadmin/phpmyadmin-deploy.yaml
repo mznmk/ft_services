@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: phpmyadmin-deployment
+  name: phpmyadmin
   labels:
     app: phpmyadmin
 spec:
@@ -23,9 +23,20 @@ spec:
             command:
             - "sh"
             - "/tmp/livenessprobe.sh"
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
           timeoutSeconds: 10
-          periodSeconds: 30
+          periodSeconds: 10
         ports:
         - name: phpmyadmin
           containerPort: 5000
+        env:
+        - name: PHPMYADMIN_USER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: phpmyadmin_user_name
+        - name: PHPMYADMIN_USER_PASS
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: phpmyadmin_user_pass

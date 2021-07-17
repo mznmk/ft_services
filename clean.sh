@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # ================================ Variables ================================= #
 
@@ -10,74 +10,88 @@ ESC_CLR_GREEN='\033[38;5;02m'
 ESC_CLR_YELLOW='\033[38;5;03m'
 ESC_CLR_CYAN='\033[38;5;06m'
 
-# ================================= Scripts ================================== #
+# ============================== Define Scripts ============================== #
 
-# ============================= Title ASCII ART ============================== #
+# ----------------------------- Title ASCII ART ------------------------------ #
 
-echo "${ESC_FNT_BOLD}${ESC_CLR_CYAN}      _                  "
-echo '  ___| | ___  __ _ _ __  '
-echo ' / __| |/ _ \/ _` | `_ \ '
-echo '| (__| |  __/ (_| | | | |'
-echo ' \___|_|\___|\__,_|_| |_|'
-echo "${ESC_RESET}"
+print_title_ascii_art()
+{
+	echo -e "${ESC_FNT_BOLD}${ESC_CLR_CYAN}      _                  "
+	echo -e '  ___| | ___  __ _ _ __  '
+	echo -e ' / __| |/ _ \/ _` | `_ \ '
+	echo -e '| (__| |  __/ (_| | | | |'
+	echo -e ' \___|_|\___|\__,_|_| |_|'
+	echo -e "${ESC_RESET}"
+}
 
-# ============================ working directory ============================= #
+# ------------------------------- delete logs -------------------------------- #
 
-echo "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Working Directory] start ..${ESC_RESET}"
+delete_logs()
+{
+	echo -e "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Install Logs] start !!${ESC_RESET}"
 
-rm -rf /data
+	rm -rf ./logs/*.log
 
-echo "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Working Directory] finish !!${ESC_RESET}"
-echo ""
+	echo -e "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Install Logs] finish !!${ESC_RESET}"
+	echo -e ""
+}
 
-# =================================== logs =================================== #
+# ------------------------ delete kubernetes setting ------------------------- #
 
-echo "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Install Logs] start !!${ESC_RESET}"
+delete_kubernetes()
+{
+	echo -e "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Kubernetes Setting] start !!${ESC_RESET}"
 
-rm -rf ./logs/*.log
+	kubectl delete pod --all
+	kubectl delete service --all
+	kubectl delete deployment --all
+	# kubectl delete pv --all
+	kubectl delete pvc --all
+	kubectl delete secret --all
 
-echo "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Install Logs] finish !!${ESC_RESET}"
-echo ""
+	echo -e "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Kubernetes Setting] finish !!${ESC_RESET}"
+	echo -e ""
+}
 
-# ================================ kubernetes ================================ #
+# --------------------------- delete docker images --------------------------- #
 
-echo "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Kubernetes Setting] start !!${ESC_RESET}"
+delete_docker()
+{
+	echo -e "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Docker Image] start !!${ESC_RESET}"
 
-kubectl delete pod --all
-kubectl delete service --all
-kubectl delete deployment --all
-# kubectl delete pv --all
-kubectl delete pvc --all
-kubectl delete secret --all
+	docker image rm ft_influxdb
+	docker image rm ft_grafana
+	docker image rm ft_ftps
+	docker image rm ft_wordpress
+	docker image rm ft_mysql
+	docker image rm ft_phpmyadmin
+	docker image rm ft_nginx
+	docker image rm alpineplus
+	docker image rm alpine
 
-echo "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Kubernetes Setting] finish !!${ESC_RESET}"
-echo ""
+	echo -e "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Docker Image] finish !!${ESC_RESET}"
+	echo -e ""
+}
 
-# ================================== docker ================================== #
+# ------------------------------ stop minikube ------------------------------- #
 
-echo "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Docker Image] start !!${ESC_RESET}"
+stop_minikube()
+{
+	echo -e "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Stop Minikube] start ..${ESC_RESET}"
 
-docker image rm ft_influxdb
-docker image rm ft_grafana
-docker image rm ft_ftps
-docker image rm ft_wordpress
-docker image rm ft_mysql
-docker image rm ft_phpmyadmin
-docker image rm ft_nginx
-docker image rm alpineplus
-docker image rm alpine
+	minikube stop
+	minikube delete
 
-echo "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Delete Docker Image] finish !!${ESC_RESET}"
-echo ""
+	echo -e "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Stop Minikube] finish !!${ESC_RESET}"
+	echo -e ""
+}
 
-# ================================= minikube ================================= #
+# =============================== Run Scripts ================================ #
 
-echo "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Stop Minikube Setting] start !!${ESC_RESET}"
-
-minikube stop
-minikube delete
-
-echo "${ESC_FNT_BOLD}${ESC_CLR_GREEN}[Stop Minikube Setting] finish !!${ESC_RESET}"
-echo ""
+print_title_ascii_art
+delete_logs
+delete_kubernetes
+delete_docker
+stop_minikube
 
 # ============================================================================ #

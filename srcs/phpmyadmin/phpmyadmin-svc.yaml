@@ -1,17 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: grafana-service
-  labels:
-    app: grafana
+  name: phpmyadmin
   annotations:
     metallb.universe.tf/allow-shared-ip: shared
 spec:
   type: LoadBalancer
   selector:
-    app: grafana
+    app: phpmyadmin
   ports:
-  - name: grafana
-    port: 3000
-    targetPort: 3000
+  - name: phpmyadmin
+    port: 5000
+    targetPort: 5000
     protocol: TCP

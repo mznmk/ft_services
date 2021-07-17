@@ -1,11 +1,11 @@
-# Base Image
+# base image
 FROM	alpineplus
 
-# Label
+# label
 LABEL	maintainer="mmizuno <mmizuno@student.42tokyo.jp>"
 
-# Install nginx
-# Install php
+# install nginx
+# install php
 RUN		apk --no-cache add nginx; \
 		apk --no-cache add php7 fcgi; \
 		apk --no-cache add php7-cgi php7-common php7-ctype php7-curl php7-dom php7-fpm \
@@ -14,28 +14,30 @@ RUN		apk --no-cache add nginx; \
 							php7-pdo php7-pdo_mysql php7-phar php7-posix \
 							php7-session php7-soap php7-xml php7-xmlrpc
 
-# Install phpmyadmin
+# install phpmyadmin
 RUN		wget https://files.phpmyadmin.net/phpMyAdmin/5.0.4/phpMyAdmin-5.0.4-all-languages.tar.gz -P /tmp; \
 		mkdir -p /var/www/phpmyadmin/; \
 		tar xzf /tmp/phpMyAdmin-5.0.4-all-languages.tar.gz --strip-components=1 -C /var/www/phpmyadmin/; \
 		rm /tmp/phpMyAdmin-5.0.4-all-languages.tar.gz;
 
-# Create Working Directory
+# create working directory
 RUN		mkdir -p /run/nginx
 RUN		mkdir -p /run/php-fpm
 
-# Copy Setting Data
+# copy setting data
 COPY	./srcs/default.conf /etc/nginx/conf.d/
 COPY	./srcs/www.conf /etc/php7/php-fpm.d/
 COPY	./srcs/config.inc.php /var/www/phpmyadmin/
+
+# set owner/permission
 RUN		chown -R nginx:nginx /var/www/phpmyadmin/
 
-# Copy LivenessProbe Script
+# copy LivenessProbe script
 COPY	./srcs/livenessprobe.sh /tmp/
 
-# Copy Init Script
+# copy init script
 COPY	./srcs/init_phpmyadmin.sh /tmp/
 RUN		chmod +x /tmp/init_phpmyadmin.sh
 
-# Run Init Command
-ENTRYPOINT	[ "/tmp/init_phpmyadmin.sh" ]
+# run init command
+ENTRYPOINT	[ "sh", "/tmp/init_phpmyadmin.sh" ]

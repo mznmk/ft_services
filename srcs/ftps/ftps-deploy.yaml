@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ftps-deployment
+  name: ftps
   labels:
     app: ftps
 spec:
@@ -27,9 +27,9 @@ spec:
             command:
             - "sh"
             - "/tmp/livenessprobe.sh"
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
           timeoutSeconds: 10
-          periodSeconds: 30
+          periodSeconds: 10
         ports:
         - name: ftps-data
           containerPort: 20
@@ -40,3 +40,14 @@ spec:
         volumeMounts:
         - name: ftps-storage
           mountPath: /var/www/ftps
+        env:
+        - name: FTPS_USER_NAME
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: ftps_user_name
+        - name: FTPS_USER_PASS
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: ftps_user_pass

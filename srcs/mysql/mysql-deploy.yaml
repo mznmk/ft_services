@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql-deployment
+  name: mysql
   labels:
     app: mysql
 spec:
@@ -28,9 +28,9 @@ spec:
             command:
             - "sh"
             - "/tmp/livenessprobe.sh"
-          initialDelaySeconds: 30
+          initialDelaySeconds: 10
           timeoutSeconds: 10
-          periodSeconds: 30
+          periodSeconds: 10
         ports:
         - name: mysql
           containerPort: 3306
@@ -38,23 +38,23 @@ spec:
         - name: mysql-storage
           mountPath: /var/lib/mysql
         env:
-        - name: MYSQL_ROOT_PASSWORD
+        - name: MYSQL_ROOT_PASS
           valueFrom:
             secretKeyRef:
               name: config-secret
-              key: mysql_root_password
-        - name: MYSQL_DATABASE_NAME
+              key: mysql_root_pass
+        - name: MYSQL_WP_DB_NAME
           valueFrom:
             secretKeyRef:
               name: config-secret
-              key: mysql_database_name
-        - name: MYSQL_USER_NAME
+              key: mysql_wp_db_name
+        - name: MYSQL_WP_USER_NAME
           valueFrom:
             secretKeyRef:
               name: config-secret
-              key: mysql_user_name
-        - name: MYSQL_USER_PASSWORD
+              key: mysql_wp_user_name
+        - name: MYSQL_WP_USER_PASS
           valueFrom:
             secretKeyRef:
               name: config-secret
-              key: mysql_user_password
+              key: mysql_wp_user_pass

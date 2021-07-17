@@ -5,10 +5,10 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: manual
+  storageClassName: standard
   accessModes:
   - ReadWriteOnce
   capacity:
     storage: 1Gi
   hostPath:
-    path: "/data"
+    path: "/kubernetes/mysql"

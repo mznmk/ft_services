@@ -1,5 +1,7 @@
 # ====================== not related to the submission  ====================== #
 
+*.png
+
 # resource
 ./resource
 

@@ -1,30 +1,21 @@
-# Base Image
+# base image
 FROM	alpineplus
 
-# Label
+# label
 LABEL	maintainer="mmizuno <mmizuno@student.42tokyo.jp>"
 
-# Install vsftpd
+# install vsftpd
 RUN		apk --no-cache add vsftpd;
 
-# Create User
-RUN		adduser -D user42; \
-		echo 'user42:user42' | chpasswd;
-
-# Create Contents Directory
-RUN		mkdir -p /var/www/ftps; \
-		chown user42:user42 /var/www/ftps;
-
-# Copy Setting Data
+# copy setting data
 COPY	srcs/vsftpd.conf /etc/vsftpd/
-COPY	srcs/chroot_list /etc/vsftpd/
 
-# Copy LivenessProbe Script
+# copy LivenessProbe script
 COPY	./srcs/livenessprobe.sh /tmp/
 
-# Copy Init Script
+# copy init script
 COPY	./srcs/init_ftps.sh /tmp/
 RUN		chmod +x /tmp/init_ftps.sh
 
-# Run Init Command
-ENTRYPOINT	[ "/tmp/init_ftps.sh" ]
+# run init command
+ENTRYPOINT	[ "sh", "/tmp/init_ftps.sh" ]

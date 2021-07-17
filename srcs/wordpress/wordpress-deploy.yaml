@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  labels:
+    app: wordpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      volumes:
+      - name: wordpress-storage
+        persistentVolumeClaim:
+          claimName: wordpress-pvc
+      containers:
+      - name: wordpress
+        image: ft_wordpress
+        imagePullPolicy: Never
+        livenessProbe:
+          exec:
+            command:
+            - "sh"
+            - "/tmp/livenessprobe.sh"
+          initialDelaySeconds: 10
+          timeoutSeconds: 10
+          periodSeconds: 10
+        ports:
+        - name: wordpress
+          containerPort: 5050
+        volumeMounts:
+          - name: wordpress-storage
+            mountPath: /var/www/wordpress
+        env:
+        - name: WORDPRESS_DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: mysql_wp_db_name
+        - name: WORDPRESS_DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: mysql_wp_user_name
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: mysql_wp_user_pass
+        - name: WORDPRESS_TITLE
+          value: ft_services
+        - name: WORDPRESS_ADMIN_NAME
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_admin_name
+        - name: WORDPRESS_ADMIN_PASS
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_admin_pass
+        - name: WORDPRESS_ADMIN_MAIL
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_admin_mail
+        - name: WORDPRESS_USER1_NAME
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user1_name
+        - name: WORDPRESS_USER1_PASS
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user1_pass
+        - name: WORDPRESS_USER1_MAIL
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user1_mail
+        - name: WORDPRESS_USER2_NAME
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user2_name
+        - name: WORDPRESS_USER2_PASS
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user2_pass
+        - name: WORDPRESS_USER2_MAIL
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user2_mail
+        - name: WORDPRESS_USER3_NAME
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user3_name
+        - name: WORDPRESS_USER3_PASS
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user3_pass
+        - name: WORDPRESS_USER3_MAIL
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user3_mail
+        - name: WORDPRESS_USER4_NAME
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user4_name
+        - name: WORDPRESS_USER4_PASS
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user4_pass
+        - name: WORDPRESS_USER4_MAIL
+          valueFrom:
+            secretKeyRef:
+              name: config-secret
+              key: wordpress_user4_mail

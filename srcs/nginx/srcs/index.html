@@ -57,25 +57,33 @@
 
 	<p>
 		<h2>MySQL</h2>
+		<a href="https://192.168.49.50:3306">https://192.168.49.50:3306</a><br>
 		<ul>
-			<li>user: root / password: password</li>
-			<li>user: user42 / password: user42</li>
+			<li>[MySQL root] user: root / pass: password</li>
+			<li>[database: wordpress] user: wp_db_user / pass: password</li>
 		</ul>
-		
 	</p>
 
 	<p>
 		<h2>PhpMyAdmin</h2>
 		<a href="https://192.168.49.50:5000">https://192.168.49.50:5000</a><br>
 		<a href="https://192.168.49.50/phpmyadmin">https://192.168.49.50/phpmyadmin</a><br>
+		<ul>
+			<li>[user] user: phpmyadmin / pass: password</li>
+		</ul>
 	</p>
 
 	<p>
 		<h2>WordPress</h2>
 		<a href="https://192.168.49.50:5050">https://192.168.49.50:5050</a><br>
 		<a href="https://192.168.49.50/wordpress">https://192.168.49.50/wordpress</a><br>
+		<a href="https://192.168.49.50:5050/wp-login.php">https://192.168.49.50:5050/wp-login.php</a><br>
 		<ul>
-			<li>user: user / password: password</li>
+			<li>[admin] user: wp_admin / pass: password / mail: wp_admin@ahoaho.com</li>
+			<li>[editor] user: wp_user1 / pass: password / mail: wp_user1@ahoaho.com</li>
+			<li>[author] user: wp_user2 / pass: password / mail: wp_user2@ahoaho.com</li>
+			<li>[contributor] user: wp_user3 / pass: password / mail: wp_user3@ahoaho.com</li>
+			<li>[subscriber] user: wp_user4 / pass: password / mail: wp_user4@ahoaho.com</li>
 		</ul>
 	</p>
 
@@ -83,15 +91,29 @@
 		<h2>FTPS</h2>
 		<a href="https://192.168.49.50:21">https://192.168.49.50:21</a><br>
 		<ul>
-			<li>user: user42 / password: user42</li>
+			<li>[user] user: ftps / pass: password</li>
 		</ul>
+		[connect server]<br>
+		lftp -e 'set ssl:verify-certificate false' -u ftps -p 21 192.168.49.50<br>
+		[send data] local -> server<br>
+		put xxxxx<br>
+		[receive data] server -> local<br>
+		get xxxxx<br>
 	</p>
 
 	<p>
 		<h2>Grafana</h2>
 		<a href="https://192.168.49.50:3000">https://192.168.49.50:3000</a><br>
 		<ul>
-			<li>admin_user: admin / admin_password: admin (default)</li>
+			<li>[user] user: grafana / pass: password</li>
+		</ul>
+	</p>
+
+	<p>
+		<h2>InfluxDB</h2>
+		<a href="https://192.168.49.50:8086">https://192.168.49.50:8086</a><br>
+		<ul>
+			<li>[user] user: influxdb / pass: password</li>
 		</ul>
 	</p>
 

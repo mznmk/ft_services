@@ -1,28 +1,28 @@
-# Base Image
+# base image
 FROM	alpineplus
 
-# Label
+# label
 LABEL	maintainer="mmizuno <mmizuno@student.42tokyo.jp>"
 
-# Install Nginx
+# install Nginx
 RUN		apk --no-cache add nginx;
 
-# Create Working Directory
+# create working directory
 RUN		mkdir -p /run/nginx
 
-# Copy Setting Data
+# copy setting data
 COPY	./srcs/default.conf /etc/nginx/conf.d/
 
-# Copy Contents Data
+# copy contents data
 COPY	./srcs/index.html /var/www/
 RUN		chown -R nginx:nginx /var/www
 
-# Copy LivenessProbe Script
+# copy LivenessProbe script
 COPY	./srcs/livenessprobe.sh /tmp/
 
-# Copy Init Script
+# copy init script
 COPY	./srcs/init_nginx.sh /tmp/
 RUN		chmod +x /tmp/init_nginx.sh
 
-# Run Init Command
+# run init command
 ENTRYPOINT [ "/tmp/init_nginx.sh" ]

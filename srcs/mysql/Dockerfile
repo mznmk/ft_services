@@ -1,26 +1,21 @@
-# Base Image
+# base image
 FROM	alpineplus
 
-# Label
+# label
 LABEL	maintainer="mmizuno <mmizuno@student.42tokyo.jp>"
 
-# Install mysql
-RUN		apk --no-cache add mariadb;
+# install mysql
+RUN		apk --no-cache add mysql
 
-# Create Working Directory
-RUN		mkdir -p /run/mysqld; \
-		touch /run/mysqld/mysqld.sock; \
-		chown mysql:mysql /run/mysqld/mysqld.sock;
-
-# Copy Setting Data
+# copy setting data
 COPY	./srcs/mariadb-server.cnf /etc/my.cnf.d/
 
-# Copy LivenessProbe Script
+# copy LivenessProbe script
 COPY	./srcs/livenessprobe.sh /tmp/
 
-# Copy Init Script
+# copy init script
 COPY	./srcs/init_mysql.sh /tmp/
 RUN		chmod +x /tmp/init_mysql.sh
 
-# Run Init Command
-ENTRYPOINT	[ "/tmp/init_mysql.sh" ]
+# run init command
+ENTRYPOINT	[ "sh", "/tmp/init_mysql.sh" ]

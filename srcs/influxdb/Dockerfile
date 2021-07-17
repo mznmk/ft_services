@@ -1,21 +1,21 @@
-# Base Image
+# base image
 FROM	alpineplus
 
-# Label
+# label
 LABEL	maintainer="mmizuno <mmizuno@student.42tokyo.jp>"
 
-# Install influxdb
+# install influxdb
 RUN		apk --no-cache add influxdb;
 
-# Copy Setting Data
-COPY	srcs/influxdb.conf /etc/influxdb/influxdb.conf
+# copy setting data
+COPY	srcs/influxdb.conf /etc/influxdb/
 
-# Copy LivenessProbe Script
+# copy LivenessProbe script
 COPY	./srcs/livenessprobe.sh /tmp/
 
-# Copy Init Script
+# copy init script
 COPY	./srcs/init_influxdb.sh /tmp/
 RUN		chmod +x /tmp/init_influxdb.sh
 
-# Run Init Command
-ENTRYPOINT	[ "/tmp/init_influxdb.sh" ]
+# run init command
+ENTRYPOINT	[ "sh", "/tmp/init_influxdb.sh" ]

@@ -5,10 +5,10 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: manual
+  storageClassName: standard
   accessModes:
   - ReadWriteOnce
   capacity:
     storage: 100Mi
   hostPath:
-    path: "/data"
+    path: "/kubernetes/ftps"

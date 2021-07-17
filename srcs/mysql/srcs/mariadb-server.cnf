@@ -9,7 +9,6 @@
 # skip-networking
 port=3306
 datadir=/var/lib/mysql
-socket=/run/mysqld/mysqld.sock
 
 # Galera-related settings
 [galera]
